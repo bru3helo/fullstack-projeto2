@@ -68,5 +68,36 @@ function App() {
       });
   };
 
+  return (
+    <div className="container">
+      <h1>Monster Search</h1>
+      <input
+        type="text"
+        value={inputValue}
+        onChange={handleInputChange}
+        onBlur={() => setFilteredMonsters([])}
+        placeholder="Enter a monster name"
+      />
+      <button onClick={searchMonster}>Search</button>
+      <div>
+        {filteredMonsters.map(name => (
+          <div key={name} onClick={() => handleClick(name)}>{name}</div>
+        ))}
+      </div>
+      <div className="search-result">
+        {error && <p>{error}</p>}
+        {monsterDetails && (
+          <ul>
+            <li>Nome: {monsterDetails.name}</li>
+            <li>Tipo: {monsterDetails.type}</li>
+            <li>Tamanho: {monsterDetails.size}</li>
+            <li>Idioma: {monsterDetails.languages}</li>
+            <li>Alinhamento: {monsterDetails.alignment}</li>
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+  
   }
   export default App;
