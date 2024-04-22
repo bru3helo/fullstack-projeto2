@@ -1,35 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react'
+import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [monsters, setMonsters] = useState([]);
+  const [inputValue, setInputValue] = useState('');
+  const [monsterDetails, setMonsterDetails] = useState(null);
+  const [filteredMonsters, setFilteredMonsters] = useState([]);
+  const [error, setError] = useState('');
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+  useEffect(() => {
+    fetch("https://www.dnd5eapi.co/api/monsters")
+      .then(res => res.json())
+      .then(data => {
+        setMonsters(data.results.map(monster => monster.name));
+      })
+      .catch(err => {
+        console.error("Failed to fetch monsters", err);
+        setError("Failed to load monster data.");
+      });
+  }, []);
 
-export default App
+
+  }
+  export default App;
