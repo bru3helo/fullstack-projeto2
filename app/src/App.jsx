@@ -1,4 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
+import SearchBar from './assets/Components/SearchBar';
+import MonsterDetails from './assets/Components/MonsterDetails';
+import { fetchMonsters, searchMonster } from './assets/Components/MonsterService'; // Importando as funções do serviço
+import { InputContext } from './assets/Components/InputContext';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -6,98 +10,68 @@ function App() {
   const [monsters, setMonsters] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [monsterDetails, setMonsterDetails] = useState(null);
-  const [filteredMonsters, setFilteredMonsters] = useState([]);
   const [error, setError] = useState('');
+  const [startedTyping, setStartedTyping] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
 
   useEffect(() => {
-    fetch("https://www.dnd5eapi.co/api/monsters")
-      .then(res => res.json())
+    fetchMonsters()
       .then(data => {
-        setMonsters(data.results.map(monster => monster.name));
+        setMonsters(data);
       })
       .catch(err => {
-        console.error("Failed to fetch monsters", err);
-        setError("Failed to load monster data.");
+        setError(err.message);
       });
   }, []);
-  const handleInputChange = (event) => {
-    const value = event.target.value.toLowerCase();
-    setInputValue(value);
-    if (!value) {
-      setFilteredMonsters([]);
-      return;
-    }
-    setFilteredMonsters(monsters.filter(monster => monster.toLowerCase().startsWith(value)));
-  };
 
-  const handleClick = (name) => {
-    setInputValue(name);
-    setFilteredMonsters([]);
-  };
-
-  const searchMonster = () => {
-    if (!inputValue) {
-      setError("Por favor, insira o nome de um monstro.");
-      setMonsterDetails(null);
-      return;
-    }
-    setError("Procurando...");
+  const handleSearch = (value) => {
+    setError('');
     setMonsterDetails(null);
-    const monsterName = inputValue.replace(/ /g, "-");
+    setInputValue(value);
+    setStartedTyping(true);
+    if (!value) {
+      setSuggestions([]);
+      return;
+    }
+    setSuggestions(monsters.filter(monster => monster.toLowerCase().startsWith(value)));
+  };
 
-    fetch(`https://www.dnd5eapi.co/api/monsters/${monsterName}`)
-      .then(res => res.json())
+  const handleSuggestionClick = (name) => {
+    setInputValue(name.toLowerCase());
+    setSuggestions([]);
+    searchMonster(name.replace(/ /g, "-").toLowerCase())
       .then(data => {
-        if (data.error) {
-          setError("Monstro não encontrado.");
-          setMonsterDetails(null);
-        } else {
-          setError('');
-          setMonsterDetails({
-            name: data.name,
-            type: data.type,
-            size: data.size,
-            languages: data.languages,
-            alignment: data.alignment
-          });
-        }
+        setMonsterDetails(data);
       })
-      .catch(() => {
-        setError("Ocorreu um erro na busca.");
-        setMonsterDetails(null);
+      .catch(err => {
+        setError(err.message);
       });
   };
 
   return (
-    <div className="container">
-      <h1>Monster Search</h1>
-      <input
-        type="text"
-        value={inputValue}
-        onChange={handleInputChange}
-        onBlur={() => setFilteredMonsters([])}
-        placeholder="Enter a monster name"
-      />
-      <button onClick={searchMonster}>Search</button>
-      <div>
-        {filteredMonsters.map(name => (
-          <div key={name} onClick={() => handleClick(name)}>{name}</div>
-        ))}
+    <InputContext.Provider value={{ inputValue, setInputValue }}>
+      <div className="container">
+        <h1>Monster Search</h1>
+        <SearchBar
+          onSearch={handleSearch}
+          suggestions={suggestions}
+          onSuggestionClick={handleSuggestionClick}
+        />
+        <button onClick={() => {
+          searchMonster(inputValue.replace(/ /g, "-").toLowerCase())
+            .then(data => {
+              setMonsterDetails(data);
+            })
+            .catch(err => {
+              setError(err.message);
+            });
+            setInputValue('')
+        }} style={{ marginTop: '10px'}}>Procurar</button>
+
+        <MonsterDetails monsterDetails={monsterDetails} error={error} />
       </div>
-      <div className="search-result">
-        {error && <p>{error}</p>}
-        {monsterDetails && (
-          <ul>
-            <li>Nome: {monsterDetails.name}</li>
-            <li>Tipo: {monsterDetails.type}</li>
-            <li>Tamanho: {monsterDetails.size}</li>
-            <li>Idioma: {monsterDetails.languages}</li>
-            <li>Alinhamento: {monsterDetails.alignment}</li>
-          </ul>
-        )}
-      </div>
-    </div>
+    </InputContext.Provider>
   );
-  
-  }
-  export default App;
+}
+
+export default App;
