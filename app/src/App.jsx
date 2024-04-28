@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import SearchBar from './Components/SearchBar';
-import MonsterDetails from './Components/MonsterDetails';
+import MonsterDetails from './Components/MonsterDetails/MonsterDetails';
 import { fetchMonsters, searchMonster } from './Components/MonsterService'; // Importando as funções do serviço
 import { InputContext } from './Components/InputContext';
 import './App.css';

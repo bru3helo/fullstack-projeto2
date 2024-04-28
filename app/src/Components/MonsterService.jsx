@@ -1,4 +1,3 @@
-// MonsterService.js
 export const fetchMonsters = async () => {
     try {
       const response = await fetch("https://www.dnd5eapi.co/api/monsters");
