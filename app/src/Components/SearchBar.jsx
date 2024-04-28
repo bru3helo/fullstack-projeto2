@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { InputContext } from './InputContext';
 
 
+
 const SearchBar = ({ onSearch, suggestions, onSuggestionClick }) => {
   const {inputValue, setInputValue} = useContext(InputContext);
 
