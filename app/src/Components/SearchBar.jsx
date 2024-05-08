@@ -1,6 +1,5 @@
-import { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { InputContext } from './InputContext';
-
 
 
 const SearchBar = ({ onSearch, suggestions, onSuggestionClick }) => {
@@ -12,7 +11,15 @@ const SearchBar = ({ onSearch, suggestions, onSuggestionClick }) => {
     setInputValue(value);
     onSearch(value);
   };
-
+  
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      const value = e.target.value.toLowerCase();
+      setInputValue(value);
+      onSuggestionClick(inputValue);
+      console.log(value);
+    }
+  }
   return (
     <div>
       <input
@@ -20,6 +27,7 @@ const SearchBar = ({ onSearch, suggestions, onSuggestionClick }) => {
         value={inputValue}
         onChange={handleInputChange}
         placeholder="Digite o nome do monstro"
+        onKeyPress={handleKeyPress}
       />
       <div className='mt-2'>
         {suggestions.map(suggestion => (
