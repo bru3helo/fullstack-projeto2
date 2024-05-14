@@ -1,4 +1,5 @@
 
+
 export const fetchMonsters = async () => {
   try {
     const response = await fetch("https://www.dnd5eapi.co/api/monsters");
@@ -18,14 +19,19 @@ export const searchMonster = async (name) => {
     if (!response.ok) {
       throw new Error("Verifique novamente o nome do monstro!!!");
     }
-    const data = await response.json();
-    return {
-      name: data.name,
-      type: data.type,
-      size: data.size,
-      languages: data.languages,
-      alignment: data.alignment
-    };
+    if(name === ""){
+      throw new Error("Digite o nome do monstro!!!");
+    }else{
+      const data = await response.json();
+      return {
+        name: data.name,
+        type: data.type,
+        size: data.size,
+        languages: data.languages,
+        alignment: data.alignment
+      };
+    }
+
   } catch (error) {
     throw new Error(`Não foi possivel encontrar, ${error.message}`);
   }

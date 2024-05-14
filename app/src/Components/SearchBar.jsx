@@ -1,17 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { InputContext } from './InputContext';
+import _ from 'lodash';
 
 
 const SearchBar = ({ onSearch, suggestions, onSuggestionClick }) => {
   const {inputValue, setInputValue} = useContext(InputContext);
 
-  const handleInputChange = (event) => {
+  const handleInputChange = useCallback((event) => {
     const value = event.target.value.toLowerCase();
     console.log(value)
     setInputValue(value);
     onSearch(value);
-  };
+  }, [setInputValue, onSearch]);
   
+  
+
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       const value = e.target.value.toLowerCase();
@@ -20,6 +23,8 @@ const SearchBar = ({ onSearch, suggestions, onSuggestionClick }) => {
       console.log(value);
     }
   }
+
+  const debouncedSearch = useCallback(_.debounce(onSearch, 300), [onSearch]);
   return (
     <div>
       <input
