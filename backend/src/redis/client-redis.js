@@ -4,6 +4,8 @@ const redis = require("redis")
 const clientRedis = redis.createClient()
 clientRedis.on('error', err => console.log("Error Redis Client") )
 
-await clientRedis.connected()
+async () => {
+    await clientRedis.connected()
+}
 
 module.exports = {clientRedis}
