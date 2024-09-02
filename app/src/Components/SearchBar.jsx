@@ -25,6 +25,7 @@ const SearchBar = ({ onSearch, suggestions, onSuggestionClick }) => {
   }
 
   const debouncedSearch = useCallback(_.debounce(onSearch, 300), [onSearch]);
+  
   return (
     <div>
       <input
