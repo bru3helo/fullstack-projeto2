@@ -62,7 +62,7 @@ function App() {
       <InputContext.Provider value={{ inputValue, setInputValue }}>
       <BrowserRouter>
               <Routes>
-                  <Route path='/fullstack-projeto2/user/new' element={<Signup/>}></Route>
+                  <Route path='/fullstack-projeto2/user/create' element={<Signup/>}></Route>
                   <Route path='/fullstack-projeto2/user/login' element={<Login/>}></Route>
               </Routes>
       </BrowserRouter>

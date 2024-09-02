@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import "./SignupForm.css";
+import axios from "axios"
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -48,6 +49,17 @@ const SignupForm = () => {
             setAlertVariant('danger');
             return;
         }
+
+        axios.post('http://localhost:3000/user/create', { user, password })
+        .then(() => {
+            setAlertMessage('Cadastro bem-sucedido!');
+        })
+        .catch(error => {
+            setAlertMessage('Erro ao fazer Cadastro. Verifique suas credenciais.');
+            setAlertVariant('danger');
+            console.error('Erro ao fazer cadastro:', error);
+        });
+
     };
     
     return (

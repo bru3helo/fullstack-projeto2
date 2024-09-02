@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import "./LoginForm.css";
 import { Link } from 'react-router-dom';
+import axios from "axios"
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -49,7 +50,24 @@ const LoginForm = () => {
             setAlertVariant('danger');
             return;
         }
+    
+
+        axios.post('http://localhost:3000/user/login', { user, password }, { withCredentials: true })
+            .then(response => {
+                // Resgatar o cookie da resposta
+                const cookies = response.headers['set-cookie'];
+                console.log('Cookies:', cookies);
+            
+                setAlertMessage('Login bem-sucedido!');
+                setAlertVariant('success');
+            })
+            .catch(error => {
+                setAlertMessage('Erro ao fazer login. Verifique suas credenciais.');
+                setAlertVariant('danger');
+                console.error('Erro ao fazer login:', error);
+            });
     };
+
     
     return (
         <Form className='Login_container' onSubmit={handleSubmit}>
@@ -83,7 +101,7 @@ const LoginForm = () => {
                 <Form.Text className="text-muted">
                 Do not have a account?
                 </Form.Text>
-                <Link to= "/fullstack-projeto2/user/new" variant="primary" type="submit">
+                <Link to= "/fullstack-projeto2/user/create" variant="primary" type="submit">
                 Register
                 </Link>
             </Form.Group>
