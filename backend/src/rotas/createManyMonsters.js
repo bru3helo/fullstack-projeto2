@@ -5,13 +5,9 @@ const {clientRedis} = require("../redis/client-redis.js")
 
 router.post('/', async (req, res) => {
 
-    const find = await prismaClient.monster.findFirst({
-        where: {
-            id: "aboleth"
-        }
-    })
+    const contador = await prismaClient.monster.count()
 
-    if (find) {
+    if (contador > 100) {
 
         return res.json("Já criado.")
 
