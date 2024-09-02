@@ -220,33 +220,6 @@ router.post('/', async (req, res) => {
         { id: 'minotaur', name: 'Minotaur', type: 'monstrosity', size: 'large', languages: '--', alignment: 'chaotic evil' },
         { id: 'minotaur-skeleton', name: 'Minotaur Skeleton', type: 'undead', size: 'large', languages: '--', alignment: 'chaotic evil' }
     ];
-    
-    /*function generateUniqueId(name, existingIds) {
-        let baseId = name.toLowerCase().replace(/ /g, '-');
-        let uniqueId = baseId;
-        let randomSuffix = () => Math.floor(100 + Math.random() * 900); // Gera um número aleatório de 3 dígitos
-    
-        while (existingIds.has(uniqueId)) {
-            uniqueId = `${baseId}-${randomSuffix()}`;
-        }
-    
-        existingIds.add(uniqueId);
-        return uniqueId;
-    }
-    
-    const existingIds = new Set();
-    const formattedMonsters = monsters.map(monster => {
-        const id = generateUniqueId(monster.name, existingIds);
-    
-        return {
-            id,
-            name: monster.name,
-            type: monster.type,
-            size: monster.size,
-            languages: monster.languages,
-            alignment: monster.alignment
-        };
-    }); */
 
     try {
         await prismaClient.monster.createMany({
