@@ -1,5 +1,5 @@
 require("dotenv").config()
-const {verify} = require('jsonwebtoken')
+const {verify, TokenExpiredError} = require('jsonwebtoken')
 
 module.exports = {
 
@@ -13,16 +13,25 @@ module.exports = {
             return res.status(401).json({message: "Token invalido"})
         } 
 
-        const verified = verify(authToken, process.env.JWT_SECRET)
+        try {
+            const verified = verify(authToken, process.env.JWT_SECRET);
 
-        if (verified){
+            if (verified) {
 
-            return next()
+                return next();
 
-        } else{
+            } else {
 
-            return res.status(401).json({message: "Token invalido"})
-            
+                return res.status(401).json({ message: "Token inválido" });
+            }   
+        } catch (err) {
+
+            if (err instanceof TokenExpiredError) {
+                
+                return res.status(401).json({ message: "Token expirado" });
+            }
+
+            return res.status(401).json({ message: "Falha na autenticação" });
         }
     }
 }
