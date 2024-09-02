@@ -1,11 +1,18 @@
 // App.jsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+
+
 import SearchBar from './Components/SearchBar';
 import MonsterDetails from './Components/MonsterDetails/MonsterDetails'
 import { fetchMonsters, searchMonster } from './Components/MonsterService'; // Importando as funções do serviço
 import { InputContext } from './Components/InputContext';
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
+import Login from './Components/Login/LoginForm'
+import Signup from './Components/Signup/SignupForm';
+import Header from './Components/Header/Header'
 
 function App() {
   const [monsters, setMonsters] = useState([]);
@@ -50,16 +57,24 @@ function App() {
   };
 
   return (
-    <InputContext.Provider value={{ inputValue, setInputValue }}>
-      <div className="container">
-        <h1>Monster Search</h1>
-        <SearchBar
-          onSearch={handleSearch}
-          suggestions={suggestions}
-          onSuggestionClick={handleSuggestionClick}
-        />
-        <button onClick={() => {
-          searchMonster(inputValue.replace(/ /g, "-").toLowerCase())
+    <>
+      <Header/>
+      <InputContext.Provider value={{ inputValue, setInputValue }}>
+      <BrowserRouter>
+              <Routes>
+                  <Route path='/fullstack-projeto2/user/new' element={<Signup/>}></Route>
+                  <Route path='/fullstack-projeto2/user/login' element={<Login/>}></Route>
+              </Routes>
+      </BrowserRouter>
+        <div className="container">
+          <h1>Monster Search</h1>
+          <SearchBar
+            onSearch={handleSearch}
+            suggestions={suggestions}
+            onSuggestionClick={handleSuggestionClick}
+            />
+          <button onClick={() => {
+            searchMonster(inputValue.replace(/ /g, "-").toLowerCase())
             .then(data => {
               setMonsterDetails(data);
             })
@@ -67,11 +82,12 @@ function App() {
               setError(err.message);
             });
             setInputValue('')
-        }} style={{ marginTop: '10px'}}>Procurar</button>
+          }} style={{ marginTop: '10px'}}>Procurar</button>
 
-        <MonsterDetails monsterDetails={monsterDetails} error={error} />
-      </div>
-    </InputContext.Provider>
+          <MonsterDetails monsterDetails={monsterDetails} error={error} />
+        </div>
+      </InputContext.Provider>
+    </>
   );
 }
 
