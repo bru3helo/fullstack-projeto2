@@ -48,3 +48,5 @@ app.listen(PORT, () => {
 //https.createServer(options, app).listen(2020, () => {
 //    console.log("Funcionando...")
 //})
+
+//Falta o HTTPS e OpenSSL
