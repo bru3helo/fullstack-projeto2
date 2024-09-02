@@ -12,3 +12,22 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User{
+    id String @default(uuid()) @id
+    user String @unique
+    password String
+
+    @@map("users")
+}
+
+model Monster{
+    id String @id @default(uuid())
+    name String
+    type String
+    size String
+    languages String
+    alignment String
+
+    @@map("monsters")
+}

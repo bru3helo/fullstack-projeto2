@@ -4,7 +4,7 @@ const fs = require("fs")
 const path = require("path")
 const https = require("https")
 
-const getRouter = require("./src/rotas/getRouter.js")
+const getAllMonsters = require("./src/rotas/getAllMonsters.js")
 
 const PORT = 3030
 
@@ -18,7 +18,7 @@ const options = {
     cert: fs.readFileSync(path.join(__dirname, 'server.cert'))
   };
 
-app.use("/", getRouter)
+app.use("/getAllMonsters", getAllMonsters)
 
 //{}
 
