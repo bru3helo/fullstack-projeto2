@@ -1,13 +1,12 @@
 // App.jsx
 import { useState, useEffect } from 'react';
-import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
 
 import SearchBar from './Components/SearchBar';
-import MonsterDetails from './Components/MonsterDetails/MonsterDetails'
+import MonsterDetails from './Components/Monster/MonsterDetails/MonsterDetails'
 import { fetchMonsters, searchMonster } from './Components/MonsterService'; // Importando as funções do serviço
 import { InputContext } from './Components/InputContext';
 
