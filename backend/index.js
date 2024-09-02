@@ -6,6 +6,7 @@ const path = require("path")
 //const https = require("https")
 require("dotenv").config()
 const compression = require("compression")
+const {rateLimit}  = require("express-rate-limit")
 
 const getOneMonster = require("./src/rotas/getOneMonster.js")
 const getAllMonsters = require("./src/rotas/getAllMonsters.js")
@@ -21,6 +22,12 @@ app.use(express.json())
 app.use(cors())
 app.use(cookieParser())
 app.use(compression())
+app.use(rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    message: "Muitas requisições feitas, vai beber uma àgua e volta daqui a pouco."
+  })
+);
 
 //const options = {
 //    key: fs.readFileSync(path.join(__dirname, 'server.key')),
