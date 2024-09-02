@@ -15,10 +15,9 @@ router.get("/:id", authenticate, async (req, res) => {
     })
 
     if (findMonster){   
-
+        
         res.json(findMonster)   
     } else {
-
         res.json({message: "Não encontrado"})
     }
 

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const prismaClient = require("../prisma/client.js")
+const {clientRedis} = require("../redis/client-redis.js")
 
 router.post('/', async (req, res) => {
 
