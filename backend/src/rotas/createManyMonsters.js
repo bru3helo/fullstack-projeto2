@@ -16,6 +16,8 @@ router.post('/', async (req, res) => {
 
     }
 
+    await clientRedis.del("monsters")
+
     const monsters1 = [
         { id: 'aboleth', name: 'Aboleth', type: 'creature', size: 'large', languages: 'Deep Speech', alignment: 'lawful evil' },
         { id: 'acolyte', name: 'Acolyte', type: 'humanoid', size: 'medium', languages: 'Common', alignment: 'any alignment' },

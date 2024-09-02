@@ -1,10 +1,12 @@
 const redis = require("redis")
 
-//Redis
-const clientRedis = redis.createClient()
-clientRedis.on('error', err => console.log("Error Redis Client") )
+let clientRedis
 
+//Redis
 async () => {
+    clientRedis = redis.createClient()
+    clientRedis.on('error', err => console.log("Error Redis Client") )
+
     await clientRedis.connected()
 }
 
