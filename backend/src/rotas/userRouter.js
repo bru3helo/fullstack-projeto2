@@ -12,9 +12,11 @@ router.post('/create', async (req, res) => {
         const {user, password} = req.body
         const createUser = await createNewUser({user, password})
 
-        if (createUser)
+        if (createUser){
+            // Remove cookie antigo caso exista
+            res.clearCookie('authToken')
             res.json({ message: "Usuário cadastrado.", createUser });
-        else{
+        } else{
             res.status(400).json({message: "Esse usuario já existe."})
         }
 
@@ -40,6 +42,8 @@ router.post("/login", async (req, res) => {
     const token = login
     console.log("token do login", token)
 
+    // Remove cookie antigo caso exista
+    res.clearCookie('authToken')
     res.cookie('authToken', token)
     res.json({message: "Logado"})
 
