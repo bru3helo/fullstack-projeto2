@@ -1,5 +1,6 @@
 // App.jsx
 import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
@@ -13,6 +14,7 @@ import { InputContext } from './Components/InputContext';
 import Login from './Components/Login/LoginForm'
 import Signup from './Components/Signup/SignupForm';
 import Header from './Components/Header/Header'
+import InsertMonster from './Components/Monster/insertNewMonster'
 
 function App() {
   const [monsters, setMonsters] = useState([]);
@@ -64,6 +66,7 @@ function App() {
               <Routes>
                   <Route path='/fullstack-projeto2/user/create' element={<Signup/>}></Route>
                   <Route path='/fullstack-projeto2/user/login' element={<Login/>}></Route>
+                  <Route path='/fullstack-projeto2/monster/add' element={<InsertMonster/>}></Route>
               </Routes>
       </BrowserRouter>
         <div className="container">
