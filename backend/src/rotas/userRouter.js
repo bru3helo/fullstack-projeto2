@@ -1,5 +1,6 @@
 const express = require("express")
 const {createNewUser} = require("./controls/createUserAPI.js")
+const {loginUser} = require("./controls/loginUserAPI.js")
 
 const router = express.Router()
 
@@ -11,7 +12,11 @@ router.post('/create', async (req, res) => {
         const {user, password} = req.body
         const createUser = await createNewUser({user, password})
 
-        res.json({ message: "Usuário cadastrado.", createUser });
+        if (createUser)
+            res.json({ message: "Usuário cadastrado.", createUser });
+        else{
+            res.status(400).json({message: "Esse usuario já existe."})
+        }
 
     } catch (err){
 
@@ -20,6 +25,24 @@ router.post('/create', async (req, res) => {
 
     }
     
+})
+
+router.post("/login", async (req, res) => {
+    
+    const {user, password} = req.body
+    const login = await loginUser({user, password})
+
+    
+    if (!login){
+        return res.status(400).json({message: "Usuário e/ou senha errados."})
+    } 
+
+    const token = login
+    console.log("token do login", token)
+
+    res.cookie('authToken', token)
+    res.json({message: "Logado"})
+
 })
 
 module.exports = router

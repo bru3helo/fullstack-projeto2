@@ -12,7 +12,7 @@ module.exports = {
         })
 
         if (userExist) {
-            throw new Error("Usuario já existe")
+            return null
         }
 
         const passwordHash = await hash(password, 8)

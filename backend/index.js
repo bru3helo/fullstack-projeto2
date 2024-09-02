@@ -1,17 +1,21 @@
 const express = require("express")
+const cookieParser = require("cookie-parser")
 const cors = require("cors")
 //const fs = require("fs")
 const path = require("path")
 //const https = require("https")
+require("dotenv").config()
 
 const getAllMonsters = require("./src/rotas/getAllMonsters.js")
+const userRouter = require('./src/rotas/userRouter.js')
 
-const PORT = 3030
+const PORT = process.env.PORT || 3030
 
 const app = express()
 
 app.use(express.json())
 app.use(cors())
+app.use(cookieParser())
 
 //const options = {
 //    key: fs.readFileSync(path.join(__dirname, 'server.key')),
@@ -19,6 +23,7 @@ app.use(cors())
 //  };
 
 app.use("/getAllMonsters", getAllMonsters)
+app.use("/user", userRouter)
 
 //{}
 
