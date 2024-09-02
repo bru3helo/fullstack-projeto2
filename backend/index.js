@@ -1,10 +1,12 @@
-import express from "express"
-import cors from "cors"
-import fs from "fs"
-import path from "path"
-import https from "https"
+const express = require("express")
+const cors = require("cors")
+const fs = require("fs")
+const path = require("path")
+const https = require("https")
 
-import getRouter from "./src/rotas/getRouter.js"
+const getRouter = require("./src/rotas/getRouter.js")
+
+const PORT = 3030
 
 const app = express()
 
@@ -20,6 +22,10 @@ app.use("/", getRouter)
 
 //{}
 
-https.createServer(options, app).listen(2020, () => {
-    console.log("Funcionando...")
+app.listen(PORT, () => {
+    console.log(`Funcionando na rota ${PORT}`)
 })
+
+//https.createServer(options, app).listen(2020, () => {
+//    console.log("Funcionando...")
+//})
