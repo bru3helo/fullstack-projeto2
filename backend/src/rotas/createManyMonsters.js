@@ -4,6 +4,18 @@ const prismaClient = require("../prisma/client.js")
 
 router.post('/', async (req, res) => {
 
+    const find = await prismaClient.monster.findFirst({
+        where: {
+            id: "aboleth"
+        }
+    })
+
+    if (find) {
+
+        return res.json("Já criado.")
+
+    }
+
     const monsters1 = [
         { id: 'aboleth', name: 'Aboleth', type: 'creature', size: 'large', languages: 'Deep Speech', alignment: 'lawful evil' },
         { id: 'acolyte', name: 'Acolyte', type: 'humanoid', size: 'medium', languages: 'Common', alignment: 'any alignment' },
