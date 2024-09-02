@@ -6,6 +6,7 @@ const path = require("path")
 //const https = require("https")
 require("dotenv").config()
 
+const getOneMonster = require("./src/rotas/getOneMonster.js")
 const getAllMonsters = require("./src/rotas/getAllMonsters.js")
 const userRouter = require('./src/rotas/userRouter.js')
 const addMonster = require('./src/rotas/addNewMonster.js')
@@ -23,6 +24,7 @@ app.use(cookieParser())
 //    cert: fs.readFileSync(path.join(__dirname, 'server.cert'))
 //  };
 
+app.use('/getOneMonster', getOneMonster)
 app.use("/getAllMonsters", getAllMonsters)
 app.use("/user", userRouter)
 app.use('/monster', addMonster)

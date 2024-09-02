@@ -1,11 +1,17 @@
 const express = require("express")
 const prismaClient = require("../prisma/client.js")
+const {authenticate} = require("../middleware/Auth.js")
 
 const router = express.Router()
 
-router.get("/", async (req, res) => {
+router.get("/", authenticate, async (req, res) => {
     
-    const allMonsters = await prismaClient.monster.findMany()
+    const allMonsters = await prismaClient.monster.findMany({
+        select: {
+            id: true,
+            name: true
+        }
+    })
 
     if (!allMonsters){
         res.json({message: "Nada encontrado"})
