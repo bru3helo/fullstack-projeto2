@@ -10,6 +10,7 @@ const getOneMonster = require("./src/rotas/getOneMonster.js")
 const getAllMonsters = require("./src/rotas/getAllMonsters.js")
 const userRouter = require('./src/rotas/userRouter.js')
 const addMonster = require('./src/rotas/addNewMonster.js')
+const createManyMonsters = require("./src/rotas/createManyMonsters.js")
 
 const PORT = process.env.PORT || 3030
 
@@ -28,7 +29,7 @@ app.use('/getOneMonster', getOneMonster)
 app.use("/getAllMonsters", getAllMonsters)
 app.use("/user", userRouter)
 app.use('/monster', addMonster)
-
+app.use('/createMonsters', createManyMonsters)
 //{}
 
 app.listen(PORT, () => {
