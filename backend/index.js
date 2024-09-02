@@ -5,6 +5,7 @@ const cors = require("cors")
 const path = require("path")
 //const https = require("https")
 require("dotenv").config()
+const compression = require("compression")
 
 const getOneMonster = require("./src/rotas/getOneMonster.js")
 const getAllMonsters = require("./src/rotas/getAllMonsters.js")
@@ -19,6 +20,7 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 app.use(cookieParser())
+app.use(compression())
 
 //const options = {
 //    key: fs.readFileSync(path.join(__dirname, 'server.key')),
