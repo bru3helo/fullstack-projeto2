@@ -1,8 +1,8 @@
 const express = require("express")
 const cors = require("cors")
-const fs = require("fs")
+//const fs = require("fs")
 const path = require("path")
-const https = require("https")
+//const https = require("https")
 
 const getAllMonsters = require("./src/rotas/getAllMonsters.js")
 
@@ -13,10 +13,10 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-const options = {
-    key: fs.readFileSync(path.join(__dirname, 'server.key')),
-    cert: fs.readFileSync(path.join(__dirname, 'server.cert'))
-  };
+//const options = {
+//    key: fs.readFileSync(path.join(__dirname, 'server.key')),
+//    cert: fs.readFileSync(path.join(__dirname, 'server.cert'))
+//  };
 
 app.use("/getAllMonsters", getAllMonsters)
 
