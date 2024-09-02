@@ -8,6 +8,7 @@ require("dotenv").config()
 
 const getAllMonsters = require("./src/rotas/getAllMonsters.js")
 const userRouter = require('./src/rotas/userRouter.js')
+const addMonster = require('./src/rotas/addNewMonster.js')
 
 const PORT = process.env.PORT || 3030
 
@@ -24,6 +25,7 @@ app.use(cookieParser())
 
 app.use("/getAllMonsters", getAllMonsters)
 app.use("/user", userRouter)
+app.use('/monster', addMonster)
 
 //{}
 
