@@ -31,11 +31,13 @@ module.exports = {
     async newMonster({name, type, size, languages, alignment}){
 
         let url = formatToUrl(name)
-        url = await getUniqueName(url)
+        const newUrl = await getUniqueName(url)
+        console.log(url)
+        console.log(newUrl)
 
         const monster = await prismaClient.monster.create({
             data: {
-                id: url,
+                id: newUrl,
                 name: name,
                 type: type,
                 size: size,

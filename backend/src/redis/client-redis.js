@@ -1,13 +1,12 @@
 const redis = require("redis")
 
-let clientRedis
+module.exports = {clientRedis: async () => {   
 
-//Redis
-async () => {
-    clientRedis = redis.createClient()
+    const clientRedis = redis.createClient()
     clientRedis.on('error', err => console.log("Error Redis Client") )
 
-    await clientRedis.connected()
-}
+    await clientRedis.connect() 
 
-module.exports = {clientRedis}
+    return clientRedis
+
+}}
