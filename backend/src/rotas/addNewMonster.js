@@ -11,7 +11,7 @@ router.post("/add", authenticate, async (req, res) => {
 
     const monster = await newMonster({name, type, size, languages, alignment})
 
-    await clientRedis.del("monsters")
+    //await clientRedis.del(`monsters-${req.id}`)
     res.json(monster)
     
 })

@@ -7,7 +7,7 @@ const router = express.Router()
 
 router.get("/", authenticate, async (req, res) => {
     
-    const postagem = await clientRedis.get("monsters")
+    const postagem = await clientRedis.get(`monsters-${req.id}`)
 
     //Cache
     if (postagem) {
@@ -25,7 +25,7 @@ router.get("/", authenticate, async (req, res) => {
         res.json({message: "Nada encontrado"})
 
     } else{
-        await clientRedis.set("monsters", JSON.stringify(allMonsters))
+        await clientRedis.set(`monsters-${req.id}`, JSON.stringify(allMonsters))
         res.json(allMonsters)
     }
 

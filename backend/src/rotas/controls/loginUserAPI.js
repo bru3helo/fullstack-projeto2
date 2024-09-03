@@ -25,7 +25,7 @@ module.exports = {
         }
 
         const token = sign({
-            user: userExist.user
+            id: userExist.id
         },
             process.env.JWT_SECRET, {
             expiresIn: "10m"

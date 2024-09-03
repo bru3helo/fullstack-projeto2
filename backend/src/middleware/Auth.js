@@ -19,7 +19,6 @@ module.exports = {
             if (verified) {
 
                 req.user = verified.id
-                console.log(req.user)
 
                 return next();
 
