@@ -1,5 +1,6 @@
 import { } from 'react';
 import "./Header.css";
+import CreateMonstersButton from '../Monster/CreateMonsters/CreateMonsters';
 
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
@@ -12,7 +13,7 @@ function Header() {
         <Container>
           <Navbar.Brand href="/fullstack-projeto2">Monster-API</Navbar.Brand>
           <Button className='button' href="/fullstack-projeto2/user/login" variant="dark">Login</Button>{' '}
-          <Button className='button' href="/fullstack-projeto2/createMonsters" variant="dark">Criar Monstros</Button>{' '}
+          <CreateMonstersButton/>{' '}
           <Button className='button' href="/fullstack-projeto2/monster/add" variant="dark">Adicionar Monstro</Button>{' '}
         </Container>
     </Navbar>
