@@ -9,6 +9,15 @@ const compression = require("compression")
 const {rateLimit}  = require("express-rate-limit")
 const xss = require("xss-clean")
 
+const __dirname = process.cwd();
+
+const keyPath = join(__dirname, 'server.key');
+const certPath = join(__dirname, 'server.cert');
+
+//Teste caminho
+console.log('Caminho para server.key:', keyPath);
+console.log('Caminho para server.cert:', certPath);
+
 const getOneMonster = require("./src/rotas/getOneMonster.js")
 const getAllMonsters = require("./src/rotas/getAllMonsters.js")
 const userRouter = require('./src/rotas/userRouter.js')
@@ -31,24 +40,21 @@ app.use(rateLimit({
 );
 app.use(xss())
 
-//const options = {
-//    key: fs.readFileSync(path.join(__dirname, 'server.key')),
-//    cert: fs.readFileSync(path.join(__dirname, 'server.cert'))
-//  };
+const options = {
+    key: fs.readFileSync(keyPath),
+    cert: fs.readFileSync(certPath), 
+}; 
 
 app.use('/monsters', getOneMonster)
 app.use("/monsters", getAllMonsters)
 app.use("/user", userRouter)
 app.use('/monsters', addMonster)
 app.use('/createMonsters', createManyMonsters)
-//{}
 
-app.listen(PORT, () => {
-    console.log(`Funcionando na rota ${PORT}`)
-})
-
-//https.createServer(options, app).listen(2020, () => {
-//    console.log("Funcionando...")
+//app.listen(PORT, () => {
+//    console.log(`Funcionando na rota ${PORT}`)
 //})
 
-//Falta o HTTPS e OpenSSL
+https.createServer(options, app).listen(2020, () => {
+    console.log("Funcionando...")
+})
