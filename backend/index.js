@@ -8,6 +8,12 @@ require("dotenv").config()
 const compression = require("compression") //
 const {rateLimit}  = require("express-rate-limit") //
 const xss = require("xss-clean") //
+const redis = require("redis")
+
+
+//Redis
+const client = redis.createClient()
+
 
 //const __dirname = process.cwd();
 
@@ -42,6 +48,9 @@ app.use(xss())
 //    key: fs.readFileSync(keyPath),
 //    cert: fs.readFileSync(certPath), 
 //}; 
+
+
+
 
 app.use("/user", userRouter)
 app.use('/monsters', monsterRouter)

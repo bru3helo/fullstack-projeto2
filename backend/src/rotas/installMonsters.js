@@ -2,13 +2,16 @@ const express = require('express');
 const router = express.Router();
 const prismaClient = require("../prisma/client.js")
 //const {clientRedis} = require("../redis/client-redis.js")
+const logger = require('../../logger.js');
 
 router.post('/', async (req, res) => {
 
     const contador = await prismaClient.monster.count()
+    logger.info(`Monstros sendo criados: ${contador}`)
 
     if (contador > 100) {
 
+        logger.info("Monstros já criados")
         return res.json("Já criado.")
 
     }
@@ -230,11 +233,12 @@ router.post('/', async (req, res) => {
             data: monsters2
         });
 
+        logger.info("Monstros criados")
         res.status(201).json({ message: 'Monstros adicionados com sucesso!'});
 
     } catch (err) {
         
-        console.error('Erro ao adicionar monstros:', err);
+        logger.error('Erro ao adicionar monstros:', err);
         res.status(500).json({ message: 'Erro ao adicionar monstros.' });
     }
 });

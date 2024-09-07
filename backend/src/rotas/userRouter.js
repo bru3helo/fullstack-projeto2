@@ -1,52 +1,52 @@
 const express = require("express")
 const {createNewUser} = require("./controls/createUserAPI.js")
 const {loginUser} = require("./controls/loginUserAPI.js")
-
-const router = express.Router()
+const logger = require('../../logger.js');
+const router = require("express").Router()
 
 //Criar usuario
 router.post('/create', async (req, res) => {
 
-    try{
+     try {
+        const { user, password } = req.body;
+        const createUser = await createNewUser({ user, password });
 
-        const {user, password} = req.body
-        const createUser = await createNewUser({user, password})
-
-        if (createUser){
+        if (createUser) {
             // Remove cookie antigo caso exista
-            res.clearCookie('authToken')
+            res.clearCookie('authToken');
+            logger.info(`Usuário cadastrado com sucesso: ${user}`);
             res.json({ message: "Usuário cadastrado.", createUser });
-        } else{
-            res.status(400).json({message: "Esse usuario já existe."})
+        } else {
+            logger.warn(`Tentativa de cadastro de usuário já existente: ${user}`);
+            res.status(400).json({ message: "Esse usuário já existe." });
         }
-
-    } catch (err){
-
-        console.error(err)
-        res.status(500).json({message: "Problemas internos"})
-
+    } catch (err) {
+        logger.error(`Erro ao criar usuário: ${err.message}`);
+        res.status(500).json({ message: "Problemas internos" });
     }
-    
-})
+});
 
 router.post("/login", async (req, res) => {
-    
-    const {user, password} = req.body
-    const login = await loginUser({user, password})
+    try {
+        const { user, password } = req.body;
+        const login = await loginUser({ user, password });
 
-    
-    if (!login){
-        return res.status(400).json({message: "Usuário e/ou senha errados."})
-    } 
+        if (!login) {
+            logger.warn(`Falha de login: Usuário e/ou senha incorretos para ${user}`);
+            return res.status(400).json({ message: "Usuário e/ou senha errados." });
+        }
 
-    const token = login
-    console.log("token do login", token)
+        const token = login;
+        logger.info(`Usuário logado com sucesso: ${user}`);
 
-    // Remove cookie antigo caso exista
-    res.clearCookie('authToken')
-    res.cookie('authToken', token)
-    res.json({message: "Logado"})
-
-})
+        // Remove cookie antigo caso exista
+        res.clearCookie('authToken');
+        res.cookie('authToken', token);
+        res.json({ message: "Logado" });
+    } catch (err) {
+        logger.error(`Erro ao realizar login: ${err.message}`);
+        res.status(500).json({ message: "Problemas internos" });
+    }
+});
 
 module.exports = router
