@@ -1,28 +1,26 @@
 const express = require("express")
 const cookieParser = require("cookie-parser")
-const cors = require("cors")
-//const fs = require("fs")
+const cors = require("cors") //
 const path = require("path")
-//const https = require("https")
+const fs = require("fs")
+const https = require("https")
 require("dotenv").config()
-const compression = require("compression")
-const {rateLimit}  = require("express-rate-limit")
-const xss = require("xss-clean")
+const compression = require("compression") //
+const {rateLimit}  = require("express-rate-limit") //
+const xss = require("xss-clean") //
 
-const __dirname = process.cwd();
+//const __dirname = process.cwd();
 
-const keyPath = join(__dirname, 'server.key');
-const certPath = join(__dirname, 'server.cert');
+//const keyPath = join(__dirname, 'server.key');
+//const certPath = join(__dirname, 'server.cert');
 
 //Teste caminho
-console.log('Caminho para server.key:', keyPath);
-console.log('Caminho para server.cert:', certPath);
+//console.log('Caminho para server.key:', keyPath);
+//console.log('Caminho para server.cert:', certPath);
 
-const getOneMonster = require("./src/rotas/getOneMonster.js")
-const getAllMonsters = require("./src/rotas/getAllMonsters.js")
 const userRouter = require('./src/rotas/userRouter.js')
-const addMonster = require('./src/rotas/addNewMonster.js')
-const createManyMonsters = require("./src/rotas/createManyMonsters.js")
+const monsterRouter = require('./src/rotas/monstersRouter.js')
+const installRouter = require("./src/rotas/installMonsters.js")
 
 const PORT = process.env.PORT || 3030
 
@@ -40,21 +38,21 @@ app.use(rateLimit({
 );
 app.use(xss())
 
-const options = {
-    key: fs.readFileSync(keyPath),
-    cert: fs.readFileSync(certPath), 
-}; 
+//const options = {
+//    key: fs.readFileSync(keyPath),
+//    cert: fs.readFileSync(certPath), 
+//}; 
 
-app.use('/monsters', getOneMonster)
-app.use("/monsters", getAllMonsters)
 app.use("/user", userRouter)
-app.use('/monsters', addMonster)
-app.use('/createMonsters', createManyMonsters)
+app.use('/monsters', monsterRouter)
+app.use('/install', installRouter)
 
-//app.listen(PORT, () => {
-//    console.log(`Funcionando na rota ${PORT}`)
-//})
-
-https.createServer(options, app).listen(2020, () => {
-    console.log("Funcionando...")
+app.listen(PORT, () => {
+    console.log(`Funcionando na rota ${PORT}`)
 })
+
+/*https.createServer(options, app).listen(2020, () => {
+    console.log("Funcionando...")
+})*/
+
+//Fiz seguindo um video tutorial

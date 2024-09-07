@@ -11,10 +11,13 @@ module.exports = {
             }
         })
 
+
+        //Já existe uma pessoa com esse nome
         if (userExist) {
             return null
         }
 
+        //Criptografando a senha
         const passwordHash = await hash(password, 8)
 
         const createUser = await prismaClient.user.create({

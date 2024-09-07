@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const prismaClient = require("../prisma/client.js")
-const {clientRedis} = require("../redis/client-redis.js")
+//const {clientRedis} = require("../redis/client-redis.js")
 
 router.post('/', async (req, res) => {
 
@@ -13,7 +13,7 @@ router.post('/', async (req, res) => {
 
     }
 
-    await clientRedis.del("monsters")
+    //await clientRedis.del("monsters")
 
     const monsters1 = [
         { id: 'aboleth', name: 'Aboleth', type: 'creature', size: 'large', languages: 'Deep Speech', alignment: 'lawful evil' },
