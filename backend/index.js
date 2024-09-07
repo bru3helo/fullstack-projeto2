@@ -7,6 +7,7 @@ const path = require("path")
 require("dotenv").config()
 const compression = require("compression")
 const {rateLimit}  = require("express-rate-limit")
+const xss = require("xss-clean")
 
 const getOneMonster = require("./src/rotas/getOneMonster.js")
 const getAllMonsters = require("./src/rotas/getAllMonsters.js")
@@ -28,16 +29,17 @@ app.use(rateLimit({
     message: "Muitas requisições feitas, vai beber uma àgua e volta daqui a pouco."
   })
 );
+app.use(xss())
 
 //const options = {
 //    key: fs.readFileSync(path.join(__dirname, 'server.key')),
 //    cert: fs.readFileSync(path.join(__dirname, 'server.cert'))
 //  };
 
-app.use('/getOneMonster', getOneMonster)
-app.use("/getAllMonsters", getAllMonsters)
+app.use('/monsters', getOneMonster)
+app.use("/monsters", getAllMonsters)
 app.use("/user", userRouter)
-app.use('/monster', addMonster)
+app.use('/monsters', addMonster)
 app.use('/createMonsters', createManyMonsters)
 //{}
 
