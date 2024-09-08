@@ -4,11 +4,10 @@ const {newMonster} = require("./controls/addMonsterAPI.js")
 //const redis = require("../middleware/redis.js") 
 const prismaClient = require("../prisma/client.js")
 const logger = require('../../logger.js');
+const redis = require("../middleware/redis.js")
 
 const router = express.Router()
 
-
-//redis.redis_client,
 
 //criar um novo monstro
 router.post("/", authenticate, async (req, res) => {
@@ -21,7 +20,7 @@ router.post("/", authenticate, async (req, res) => {
         // Log de sucesso
         logger.info(`Monstro criado com sucesso: ${name}, Tipo: ${type}`);
 
-        // Cache: await cliente.del(`monsters-${req.id}`);
+        await cliente.del(`monsters-${req.id}`);
         res.json(monster);
     } catch (error) {
         logger.error(`Erro ao criar monstro: ${error.message}`);
