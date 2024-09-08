@@ -1,13 +1,11 @@
 const express = require("express")
 const {authenticate} = require("../middleware/Auth.js")
 const {newMonster} = require("./controls/addMonsterAPI.js")
-//const redis = require("../middleware/redis.js") 
 const prismaClient = require("../prisma/client.js")
 const logger = require('../../logger.js');
-const redis = require("../middleware/redis.js")
+const cliente = require("../middleware/redis.js")
 
 const router = express.Router()
-
 
 //criar um novo monstro
 router.post("/", authenticate, async (req, res) => {
@@ -20,10 +18,14 @@ router.post("/", authenticate, async (req, res) => {
         // Log de sucesso
         logger.info(`Monstro criado com sucesso: ${name}, Tipo: ${type}`);
 
-        await cliente.del(`monsters-${req.id}`);
+        await cliente.del(`monsters`); 
+
         res.json(monster);
+
     } catch (error) {
+
         logger.error(`Erro ao criar monstro: ${error.message}`);
+
         res.status(500).json({ message: "Erro ao criar o monstro." });
     }
 });
@@ -32,13 +34,13 @@ router.post("/", authenticate, async (req, res) => {
 router.get("/", authenticate, async (req, res) => {
     
     try {
-        // const postagem = await clientRedis.get(`monsters-${req.id}`);
+        const cacheMonstros = await cliente.get(`monsters`);
 
         // Cache
-        // if (postagem) {
-        //     logger.info("Monstros recuperados do cache.");
-        //     return res.status(200).json(JSON.parse(postagem));
-        // }
+        if (cacheMonstros) {
+            logger.info("Monstros recuperados do cache.");
+            return res.status(200).json(JSON.parse(cacheMonstros));
+        }
 
         const allMonsters = await prismaClient.monster.findMany({
             select: {
@@ -48,10 +50,14 @@ router.get("/", authenticate, async (req, res) => {
         });
 
         if (!allMonsters) {
+
             logger.warn("Nenhum monstro encontrado.");
             return res.json({ message: "Nada encontrado" });
+
         } else {
-            // Cache: await clientRedis.set(`monsters-${req.id}`, JSON.stringify(allMonsters));
+
+            // Cache 
+            await cliente.set(`monsters`, JSON.stringify(allMonsters));
             logger.info("Todos os monstros recuperados com sucesso.");
             res.json(allMonsters);
         }

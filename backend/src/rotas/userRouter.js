@@ -8,19 +8,25 @@ const router = require("express").Router()
 router.post('/create', async (req, res) => {
 
      try {
+
         const { user, password } = req.body;
         const createUser = await createNewUser({ user, password });
 
         if (createUser) {
             // Remove cookie antigo caso exista
             res.clearCookie('authToken');
+
             logger.info(`Usuário cadastrado com sucesso: ${user}`);
+
             res.json({ message: "Usuário cadastrado.", createUser });
+
         } else {
+
             logger.warn(`Tentativa de cadastro de usuário já existente: ${user}`);
             res.status(400).json({ message: "Esse usuário já existe." });
         }
     } catch (err) {
+        
         logger.error(`Erro ao criar usuário: ${err.message}`);
         res.status(500).json({ message: "Problemas internos" });
     }

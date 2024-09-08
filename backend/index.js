@@ -1,13 +1,13 @@
 const express = require("express")
 const cookieParser = require("cookie-parser")
 const cors = require("cors") //
-const path = require("path")
 const fs = require("fs")
 const https = require("https")
 require("dotenv").config()
 const compression = require("compression") //
 const {rateLimit}  = require("express-rate-limit") //
 const xss = require("xss-clean") //
+
 const privateKey = fs.readFileSync('./private-key.pem', 'utf8');
 const certificado = fs.readFileSync('./certificate.pem', 'utf8');
 const credenciais = { key: privateKey, cert: certificado };
@@ -36,10 +36,10 @@ app.use("/user", userRouter)
 app.use('/monsters', monsterRouter)
 app.use('/install', installRouter)
 
-//app.listen(PORT, () => {
-//    console.log(`Funcionando na rota ${PORT}`)
-//})
-
-https.createServer(credenciais, app).listen(2020, () => {
-    console.log("Funcionando...")
+app.listen(PORT, () => {
+    console.log(`Funcionando na rota ${PORT}`)
 })
+
+/*https.createServer(credenciais, app).listen(2020, () => {
+    console.log("Funcionando...")
+}) */
