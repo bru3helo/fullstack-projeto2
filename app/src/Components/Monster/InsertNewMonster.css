@@ -1,0 +1,13 @@
+.Insert_container{
+    margin: 50px auto;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.195);
+}
+
+.Insert_container Button{
+    background-color: #000000;
+    border: none;
+    border-radius: 4px;
+    
+}

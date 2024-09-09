@@ -22,7 +22,7 @@ const app = express()
 
 app.use(express.json())
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: 'https://localhost:5173',
     credentials: true
 }));
 app.use(cookieParser())
@@ -39,10 +39,10 @@ app.use("/user", userRouter)
 app.use('/monsters', monsterRouter)
 app.use('/install', installRouter)
 
-app.listen(PORT, () => {
+/*app.listen(PORT, () => {
     console.log(`Funcionando na rota ${PORT}`)
-})
+})*/
 
-/*https.createServer(credenciais, app).listen(2020, () => {
+https.createServer(credenciais, app).listen(PORT, () => {
     console.log("Funcionando...")
-}) */
+}) 
