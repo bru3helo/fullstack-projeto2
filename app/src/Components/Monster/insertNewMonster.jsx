@@ -74,7 +74,7 @@ const InsertMonster = () => {
             alignment: monsterAlignment,
         };
 
-        axios.post('http://localhost:3000/monster/add', requestBody, {
+        axios.post('http://localhost:3000/monsters/', requestBody, {
             headers: {
                 'Content-Type': 'application/json',
             },

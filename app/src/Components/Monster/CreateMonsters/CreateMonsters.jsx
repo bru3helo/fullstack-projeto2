@@ -6,7 +6,7 @@ const CreateMonstersButton = () => {
 
     const handleCreateMonsters = async () => {
         try {
-            const response = await axios.post('http://localhost:3000/createMonsters'); // Ajuste a URL se necessário
+            const response = await axios.post('http://localhost:3000/install'); // Ajuste a URL se necessário
             alert(response.data.message);
         } catch (error) {
             console.error('Erro ao criar monstros:', error);
@@ -15,7 +15,7 @@ const CreateMonstersButton = () => {
     };
 
     return (
-        <Button onClick={handleCreateMonsters} href="/fullstack-projeto2/createMonsters" variant="dark">
+        <Button onClick={handleCreateMonsters} href="/fullstack-projeto2/install" variant="dark">
             Criar Monstros
         </Button>
     );
