@@ -5,7 +5,15 @@ const logger = require('../../logger.js');
 const router = require("express").Router()
 
 //Criar usuario
-router.post('/create', async (req, res) => {
+router.post("/create",
+  [
+    body("user")
+      .notEmpty().withMessage("Usuário é obrigatório")
+      .isLength({ min: 4 }).withMessage("Usuário deve ter no mínimo 4 caracteres"),
+    body("password")
+      .notEmpty().withMessage("Senha é obrigatória")
+      .isLength({ min: 6 }).withMessage("Senha deve ter no mínimo 6 caracteres"),
+  ], async (req, res) => {
 
      try {
 
@@ -32,7 +40,12 @@ router.post('/create', async (req, res) => {
     }
 });
 
-router.post("/login", async (req, res) => {
+router.post(
+    "/login",
+  [
+    body("user").notEmpty().withMessage("Usuário é obrigatório"),
+    body("password").notEmpty().withMessage("Senha é obrigatória"),
+  ], async (req, res) => {
     try {
         const { user, password } = req.body;
         const login = await loginUser({ user, password });

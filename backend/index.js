@@ -2,7 +2,7 @@ const express = require("express")
 const cookieParser = require("cookie-parser")
 const cors = require("cors") //
 const fs = require("fs")
-const https = require("https")
+const https = require("https") //
 require("dotenv").config()
 const compression = require("compression") //
 const {rateLimit}  = require("express-rate-limit") //
@@ -21,7 +21,10 @@ const PORT = process.env.PORT || 3030
 const app = express()
 
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+}));
 app.use(cookieParser())
 app.use(compression())
 app.use(xss())

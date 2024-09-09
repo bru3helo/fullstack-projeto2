@@ -8,7 +8,15 @@ const cliente = require("../middleware/redis.js")
 const router = express.Router()
 
 //criar um novo monstro
-router.post("/", authenticate, async (req, res) => {
+router.post("/",
+    authenticate,
+    [
+        check('name').notEmpty().withMessage('Nome é obrigatório').isString().withMessage('Nome deve ser uma string'),
+        check('type').notEmpty().withMessage('Tipo é obrigatório').isString().withMessage('Tipo deve ser uma string'),
+        check('size').notEmpty().withMessage('Tamanho é obrigatório').isString().withMessage('Tamanho deve ser uma string'),
+        check('languages').notEmpty().withMessage('Idiomas são obrigatórios').isArray().withMessage('Idiomas devem ser um array'),
+        check('alignment').optional().isString().withMessage('Alinhamento deve ser uma string'),
+    ], async (req, res) => {
 
     try {
         const { name, type, size, languages, alignment } = req.body;
