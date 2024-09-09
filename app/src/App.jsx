@@ -42,13 +42,14 @@ function App() {
       setSuggestions([]);
       return;
     }
+    // Se você estiver filtrando por nome, pode manter essa lógica
     setSuggestions(monsters.filter(monster => monster.toLowerCase().startsWith(value)));
   };
-
-  const handleSuggestionClick = (name) => {
-    setInputValue(name.toLowerCase());
+  
+  const handleSuggestionClick = (id) => {
+    setInputValue(id.replace(/ /g, "-").toLowerCase());
     setSuggestions([]);
-    searchMonster(name.replace(/ /g, "-").toLowerCase())
+    searchMonster(id)  // Agora lidamos com o ID
       .then(data => {
         setMonsterDetails(data);
       })
