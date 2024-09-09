@@ -1,4 +1,5 @@
 const express = require("express")
+const { check, validationResult } = require("express-validator");
 const {authenticate} = require("../middleware/Auth.js")
 const {newMonster} = require("./controls/addMonsterAPI.js")
 const prismaClient = require("../prisma/client.js")

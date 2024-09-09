@@ -1,4 +1,5 @@
 const express = require("express")
+const { body, validationResult } = require("express-validator");
 const {createNewUser} = require("./controls/createUserAPI.js")
 const {loginUser} = require("./controls/loginUserAPI.js")
 const logger = require('../../logger.js');
