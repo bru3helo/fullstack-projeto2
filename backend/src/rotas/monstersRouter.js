@@ -18,7 +18,7 @@ router.post("/", authenticate, async (req, res) => {
         // Log de sucesso
         logger.info(`Monstro criado com sucesso: ${name}, Tipo: ${type}`);
 
-        await cliente.del(`monsters`); 
+        //await cliente.del(`monsters`); 
 
         res.json(monster);
 
@@ -34,13 +34,13 @@ router.post("/", authenticate, async (req, res) => {
 router.get("/", authenticate, async (req, res) => {
     
     try {
-        const cacheMonstros = await cliente.get(`monsters`);
+        //const cacheMonstros = await cliente.get(`monsters`);
 
         // Cache
-        if (cacheMonstros) {
-            logger.info("Monstros recuperados do cache.");
-            return res.status(200).json(JSON.parse(cacheMonstros));
-        }
+        //if (cacheMonstros) {
+        //    logger.info("Monstros recuperados do cache.");
+        //    return res.status(200).json(JSON.parse(cacheMonstros));
+        //}
 
         const allMonsters = await prismaClient.monster.findMany({
             select: {
@@ -57,7 +57,7 @@ router.get("/", authenticate, async (req, res) => {
         } else {
 
             // Cache 
-            await cliente.set(`monsters`, JSON.stringify(allMonsters));
+            //await cliente.set(`monsters`, JSON.stringify(allMonsters));
             logger.info("Todos os monstros recuperados com sucesso.");
             res.json(allMonsters);
         }
